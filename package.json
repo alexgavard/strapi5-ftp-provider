@@ -1,14 +1,19 @@
 {
-  "name": "strapi-provider-upload-ftp",
+  "name": "strapi5-provider-upload-ftp",
   "version": "1.0.0",
+  "description": "A Strapi plugin for uploading files to an FTP server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests specified\" && exit 0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "strapi",
+    "ftp",
+    "upload",
+    "plugin"
+  ],
+  "author": "Alex Gavard",
+  "license": "MIT",
   "dependencies": {
     "basic-ftp": "^5.0.5"
   }

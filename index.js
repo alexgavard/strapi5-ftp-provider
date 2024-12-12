@@ -2,11 +2,17 @@ const ftp = require('basic-ftp');
 
 module.exports = {
     init(config) {
-        const { host, user, password, publicUrl } = config;
+        const { host, user, password, publicUrl, ftp_custom_path } = config;
 
         const getUploadPath = () => {
             const now = new Date();
-            return `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+            const yearMonthPath = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+            if (ftp_custom_path && ftp_custom_path.trim() !== '') {
+                return `${ftp_custom_path}/${yearMonthPath}`;
+            } else {
+                return yearMonthPath;
+            }
         };
 
         const connectToFTP = async () => {
@@ -15,8 +21,7 @@ module.exports = {
                 await client.access({ host, user, password });
                 return client;
             } catch (error) {
-                console.error('Failed to connect to FTP server:', error);
-                throw error;
+                throw new Error('Failed to connect to FTP server');
             }
         };
 
@@ -28,7 +33,7 @@ module.exports = {
                 try {
                     await client.send(`MKD ${currentPath}`);
                 } catch (err) {
-                    if (!err.message.includes('550')) { // Directory already exists
+                    if (!err.message.includes('550')) {
                         throw err;
                     }
                 }
@@ -52,8 +57,7 @@ module.exports = {
 
                     file.url = `${publicUrl}/${uploadPath}/${filePath}`;
                 } catch (error) {
-                    console.error('Error during upload:', error);
-                    throw error;
+                    throw new Error('Error during file upload');
                 } finally {
                     if (client) {
                         client.close();
@@ -75,8 +79,7 @@ module.exports = {
                     await client.cd(uploadPath);
                     await client.remove(filePath);
                 } catch (error) {
-                    console.error('Error during file deletion:', error);
-                    throw error;
+                    throw new Error('Error during file deletion');
                 } finally {
                     if (client) {
                         client.close();
