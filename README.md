@@ -6,7 +6,7 @@ This is a Strapi 5 provider plugin that allows you to upload media files via FTP
 
 - Uploads media files to an FTP server.
 - Automatically creates year and month directories for file organization:
-<<<<<<< HEAD
+
     - **2024**
         - **01** (January)
         - **02** (February)
