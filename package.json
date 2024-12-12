@@ -1,6 +1,6 @@
 {
   "name": "strapi5-provider-upload-ftp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Strapi plugin for uploading files to an FTP server",
   "main": "index.js",
   "scripts": {
