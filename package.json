@@ -16,5 +16,13 @@
   "license": "MIT",
   "dependencies": {
     "basic-ftp": "^5.0.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexgavard/strapi5-ftp-provider.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexgavard/strapi5-ftp-provider/issues"
+  },
+  "homepage": "https://github.com/alexgavard/strapi5-ftp-provider#readme"
 }
