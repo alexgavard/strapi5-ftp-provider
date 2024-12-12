@@ -20,7 +20,7 @@ This is a Strapi 5 provider plugin that allows you to upload media files via FTP
   - **2025**
     - **01** (January)
     - **02** (February)
->>>>>>> d41b0a0c244bc482f9d5a32894306cde18fe7863
+
 - Allows you to set a custom path for organizing files on your FTP server (optional).
 
 ## Why Use an FTP Provider?
