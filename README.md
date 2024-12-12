@@ -101,6 +101,7 @@ You will also need to create a `.env` file with the following information (repla
 
 ```makefile
 FTP_HOST=ftp.yourserver.com
+FTP_PORT=21
 FTP_USER=your-ftp-username
 FTP_PASSWORD=your-ftp-password
 FTP_PUBLIC_URL=https://yourwebsite.com
