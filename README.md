@@ -13,13 +13,6 @@ This is a Strapi 5 provider plugin that allows you to upload media files via FTP
     - **2025**
         - **01** (January)
         - **02** (February)
-=======
-  - **2024**
-    - **01** (January)
-    - **02** (February)
-  - **2025**
-    - **01** (January)
-    - **02** (February)
 
 - Allows you to set a custom path for organizing files on your FTP server (optional).
 
