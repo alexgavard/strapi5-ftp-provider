@@ -4,9 +4,9 @@ module.exports = {
     init(config) {
         const { host, user, password, publicUrl, ftp_custom_path } = config;
 
-        const getUploadPath = () => {
-            const now = new Date();
-            const yearMonthPath = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+        const getUploadPath = (file) => {
+            const fileDate = new Date(file.createdAt || Date.now());
+            const yearMonthPath = `${fileDate.getFullYear()}/${String(fileDate.getMonth() + 1).padStart(2, '0')}`;
 
             if (ftp_custom_path && ftp_custom_path.trim() !== '') {
                 return `${ftp_custom_path}/${yearMonthPath}`;
@@ -21,7 +21,7 @@ module.exports = {
                 await client.access({ host, user, password });
                 return client;
             } catch (error) {
-                throw new Error('Failed to connect to FTP server');
+                throw new Error(`Failed to connect to FTP server: ${error.message}`);
             }
         };
 
@@ -42,7 +42,7 @@ module.exports = {
 
         return {
             async upload(file) {
-                const uploadPath = getUploadPath();
+                const uploadPath = getUploadPath(file);
                 const filePath = `${file.hash}${file.ext}`;
                 let client;
 
@@ -57,7 +57,7 @@ module.exports = {
 
                     file.url = `${publicUrl}/${uploadPath}/${filePath}`;
                 } catch (error) {
-                    throw new Error('Error during file upload');
+                    throw new Error(`Error during file upload: ${error.message}`);
                 } finally {
                     if (client) {
                         client.close();
@@ -70,16 +70,24 @@ module.exports = {
             },
 
             async delete(file) {
-                const uploadPath = getUploadPath();
-                const filePath = `${file.hash}${file.ext}`;
+                const uploadPath = getUploadPath(file);
+                const filePathBase = file.hash + file.ext;
+                const sizes = ['thumbnail', 'small', 'medium', 'large'];
+
                 let client;
 
                 try {
                     client = await connectToFTP();
                     await client.cd(uploadPath);
-                    await client.remove(filePath);
+                    for (const size of sizes) {
+                        const filePath = `${size}_${filePathBase}`;
+                        try {
+                            await client.remove(filePath);
+                        } catch (error) {
+                        }
+                    }
                 } catch (error) {
-                    throw new Error('Error during file deletion');
+                    throw new Error(`Error during file deletion: ${error.message}`);
                 } finally {
                     if (client) {
                         client.close();
