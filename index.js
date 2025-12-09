@@ -87,6 +87,11 @@ module.exports = {
                         }
                     }
                 } catch (error) {
+                    if (error.code === 550) {
+                        strapi.log.warn(`FTP delete: file not found, skip → ${error.message}`);
+                        return;
+                    }
+                    
                     throw new Error(`Error during file deletion: ${error.message}`);
                 } finally {
                     if (client) {
